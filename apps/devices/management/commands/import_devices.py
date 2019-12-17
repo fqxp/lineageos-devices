@@ -136,6 +136,12 @@ class Command(BaseCommand):
         if not mm_field:
             return None
 
+        # might happen that there is one device description file for two devices.
+        # we're arbitrarily picking the first in list, as this happens
+        # seldomly anyway.
+        if type(mm_field) is list:
+            mm_field = list(mm_field[0].values())[0]
+
         mm_field = mm_field.strip()
 
         mo = re.match(r'^(\d+(\.\d+)?) *mm.*$', mm_field)
