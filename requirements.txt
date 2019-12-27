@@ -1,6 +1,6 @@
 termcolor==1.1.0
 Django==2.2.8
-PyYAML==3.13
+PyYAML==5.2
 psycopg2==2.8.4
 Pillow==6.2.1
 ipython==7.1.1
