@@ -2,8 +2,8 @@ from django.db.models import (
     Model as DjangoModel, CharField, IntegerField, ManyToManyField, ImageField,
     BooleanField, DecimalField)
 
-class Device(DjangoModel):
 
+class Device(DjangoModel):
     architecture = CharField(max_length=255)
     battery_removable = BooleanField(null=True)
     battery_capacity = IntegerField(null=True)

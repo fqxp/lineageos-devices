@@ -7,6 +7,7 @@ from decimal import Decimal
 import os
 import os.path
 import re
+import sys
 import yaml
 
 
@@ -27,14 +28,18 @@ class Command(BaseCommand):
         for filename in os.listdir(devices_dir):
             codename = self._codename(filename)
 
-            print(colored('Updating {} ...'.format(codename), 'green'))
+            sys.stdout.write(
+                colored('Updating {} ...'.format(codename), 'green')
+                + 20 * ' ' + '\r')
 
             data = self.update_device(os.path.join(devices_dir, filename))
             self.update_db(codename, data)
 
+        print('\nDone.')
+
     def update_device(self, filename):
         with open(filename, 'r') as fp:
-            return yaml.load(fp.read())
+            return yaml.load(fp.read(), Loader=yaml.FullLoader)
 
     def update_db(self, codename, data):
         assert data['codename'] == codename
@@ -136,9 +141,9 @@ class Command(BaseCommand):
         if not mm_field:
             return None
 
-        # might happen that there is one device description file for two devices.
-        # we're arbitrarily picking the first in list, as this happens
-        # seldomly anyway.
+        # might happen that there is one device description file for two
+        # devices.  we're arbitrarily picking the first in list, as this
+        # happens seldomly anyway.
         if type(mm_field) is list:
             mm_field = list(mm_field[0].values())[0]
 
